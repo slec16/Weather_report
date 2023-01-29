@@ -142,18 +142,19 @@ const markup = () => {
                 </div>
               </div>
               <div class="city-info">
-                <div class="top-left">
-                <img class="icon" src="./img/${getImage(description)}" alt="" />
-                <div class="description">${description}</div>
-              </div>
+                  <div class="top-left">
+                  <img class="icon" src="./img/${getImage(description)}" alt="" />
+                  <div class="description">${description}</div>
+                </div>
             
-              <div class="top-right">
-                <div class="city-info__subtitle">as of ${observationTime}</div>
-                <div class="city-info__title">${temperature}°</div>
+                <div class="top-right">
+                  <div class="city-info__subtitle">as of ${observationTime}</div>
+                  <div class="city-info__title">${temperature}°</div>
               </div>
             </div>
           </div>
-        <div id="properties">${renderProperty(properties)}</div>`;//?
+        <div id="properties">${renderProperty(properties)}</div>
+        </div>`;//?
 };
 
 const togglePopupClass = () => {

@@ -2,6 +2,9 @@ const link =
   "http://api.weatherstack.com/current?access_key=81c2950b81177b8b708ee11ad4a651eb";
 
 
+const linkForecast = 
+  "http://api.weatherstack.com/forecast?access_key=81c2950b81177b8b708ee11ad4a651eb";
+
 const root = document.getElementById("root");
 const popup = document.getElementById("popup");
 const textInput = document.getElementById("text-input");
@@ -30,6 +33,15 @@ const fetchData = async () => {
     const result = await fetch(`${link}&query=${query}`);
     const data = await result.json();
 
+    const queryForecast = store.city;
+    const resultForecast = await fetch(`${linkForecast}&query=${queryForecast}`);
+    const dataForecast = await resultForecast.json();
+
+    console.log(dataForecast);
+    console.log(data);
+
+    
+
     const {
       current: {
         cloudcover,
@@ -43,8 +55,14 @@ const fetchData = async () => {
         weather_descriptions: description,
         wind_speed: windSpeed,
       },
-      location: { name },
+      location: { 
+        name,
+        localtime: localTime},
+        
     } = data;
+
+
+
 
     store = {
       ...store,
@@ -52,7 +70,10 @@ const fetchData = async () => {
       city: name,
       temperature,
       observationTime,
+      localTime,
       description: description[0],
+      forecast: {
+      },
       properties: {
         cloudcover: {
           title: "cloudcover",
@@ -87,6 +108,9 @@ const fetchData = async () => {
       },
     };
 
+
+    
+    
     renderComponent();
   } catch (err) {
     console.log(err);
@@ -129,9 +153,11 @@ const renderProperty = (properties) => {
 };
 
 const markup = () => {
-  const { city, description, observationTime, temperature, isDay, properties } =
+  const { city, description, observationTime, temperature, isDay, properties, localTime} =
     store;
   const containerClass = isDay === "yes" ? "is-day" : "";
+
+
 
   return `<div class="container ${containerClass}">
             <div class="top">
@@ -148,7 +174,7 @@ const markup = () => {
                 </div>
             
                 <div class="top-right">
-                  <div class="city-info__subtitle">as of ${observationTime}</div>
+                  <div class="city-info__subtitle">as of ${localTime}</div>
                   <div class="city-info__title">${temperature}°</div>
               </div>
             </div>
